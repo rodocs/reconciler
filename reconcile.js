@@ -1,6 +1,11 @@
 const fs = require('fs');
+const childProcess = require('child_process');
 
-let input = require("./api.json");
+childProcess.exec("RobloxStudioBeta.exe -API dump.json", (err, stdout, stderr) => {
+	if (err)
+		throw err;
+	
+});
 
 function write(name, data) {
 	fs.writeFile(`${name}.json`, JSON.stringify(data, null, "	"), 'utf8', (err) => {
@@ -8,7 +13,6 @@ function write(name, data) {
 			console.error(err);
 	});
 }
-
 
 let instances = {};
 let classes = input.Classes;
