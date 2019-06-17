@@ -7,7 +7,7 @@
 		"doc": "docs"
 	},
 	"scripts": {
-		"reconcile": "reconcile.js"
+		"reconcile": "node reconcile.js"
 	},
 	"repository": {
 		"type": "git",
