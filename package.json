@@ -1,25 +1,25 @@
 {
-  "name": "reconciler",
-  "version": "1.0.0",
-  "description": "Node implementation of dumpling",
-  "main": "reconcile.js",
-  "directories": {
-    "doc": "docs"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rodocs/reconciler.git"
-  },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/rodocs/reconciler/issues"
-  },
-  "homepage": "https://github.com/rodocs/reconciler#readme",
-  "dependencies": {
-    "request": "^2.88.0"
-  }
+	"name": "reconciler",
+	"version": "1.0.0",
+	"description": "Node implementation of dumpling",
+	"main": "reconcile.js",
+	"directories": {
+		"doc": "docs"
+	},
+	"scripts": {
+		"reconcile": "reconcile.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rodocs/reconciler.git"
+	},
+	"author": "",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/rodocs/reconciler/issues"
+	},
+	"homepage": "https://github.com/rodocs/reconciler#readme",
+	"dependencies": {
+		"request": "^2.88.0"
+	}
 }
