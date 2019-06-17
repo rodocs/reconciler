@@ -1,4 +1,5 @@
 const fs = require('fs');
+const fm = require('front-matter');
 const request = require('request');
 
 let fetchLatestDump = () => {
@@ -28,31 +29,47 @@ let readFile = (fileName) => {
 	});
 }
 
+let getDocumentation = (folder, name) => {
+	return new Promise((resolve, reject) => {
+		fs.readFile(`${folder}/${name}.md`, "utf8", (err, data) => {
+			if (err) // TODO: Only resolve to null when no file found
+				resolve(undefined);
+			else
+				resolve(fm(data));
+		});
+	});
+}
+
 let asyncForEach = async (array, callback) => {
 	for (let index = 0; index < array.length; index++)
 		await callback(array[index], index, array);
+}
+
+let processClass = async instance => {
+	var folder = `docs/Instances/${instance.Name}`;
+	var members = {};
+	asyncForEach(instance.Members, async member => members[member.Name] = {
+		Category:		member.Category,
+		MemberType:		member.MemberType,
+		Security:		member.Security,
+		Serialization:	member.Serialization,
+		ValueType:		member.ValueType,
+		Tags:			member.Tags,
+		Documentation:	await getDocumentation(folder, member.Name)
+	});
+	return {
+		Members:		members,
+		Super:			instance.Superclass,
+		Tags:			instance.Tags,
+		Documentation:	await getDocumentation(folder, instance.Name)
+	}
 }
 
 let run = async () => {
 	let classes = {};
 	let dump = await fetchLatestDump();
 
-	await asyncForEach(dump.Classes, async (element) => {
-		let instance = {
-			// Members: instance.Members,
-			Super: element.Superclass,
-			Tags: element.Tags,
-			ShortDescription: "Undocumented",
-			Description: "",
-			Related: []
-		}
-		try {
-			instance.Description = await readFile(`docs/Instances/${element.Name}/${element.Name}.md`);
-		}
-		catch {
-		}
-		classes[element.Name] = instance;
-	})
+	await asyncForEach(dump.Classes, async instance => classes[instance.Name] = await processClass(instance));
 
 	let apiRef = {
 		classes: classes,
