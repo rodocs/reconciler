@@ -1,1 +1,3 @@
-*.json
+api.json
+dump.json
+node_modules
